@@ -1,5 +1,4 @@
 import { observable, action } from 'mobx';
-import { getNavigation } from 'utils/transfer';
 import http from 'utils/http';
 import API from 'utils/API';
 import * as c from 'utils/calendar';

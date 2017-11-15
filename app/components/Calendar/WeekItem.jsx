@@ -18,7 +18,7 @@ class WeekItem extends Component {
     }
     render() {
         let _key = 0;
-        const { setSelectD, selectD, weekType, weekItemInfo } = this.props;
+        const { selectD, weekType, weekItemInfo } = this.props;
         const selectDateString = c.getPrefixDateString(selectD);
         return (
             <div className="week-wrap">

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import * as c from 'utils/calendar';
 import each from 'lodash/each';
-import API from 'utils/API';
-import http from 'utils/http';
 import { requestAnimationFrame, cancelAnimationFrame, getTransform } from 'utils/requestAnimationFrame';
 
 import CalendarHeader from './CalendarHeader';
@@ -172,7 +170,7 @@ class Calendar extends Component {
 
     render() {
         const { year, month } = this.props.currentM;
-        const { currentD, currentM, type, weekType, monthType } = this.props;
+        const { currentD, currentM, type } = this.props;
 
         let info = type == 0 ? c.get3WeekInfo(currentD) : c.get3MonthInfo(currentM);
         let _info = []

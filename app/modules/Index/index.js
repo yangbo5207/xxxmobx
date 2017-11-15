@@ -19,8 +19,8 @@ class Index extends Component {
     render() {
         const { loading } = this.props;
         return ([
-            <Calendar />,
-            <div>{ loading ? <Loading /> : <Classification /> }</div>
+            <Calendar key="a" />,
+            <div key="b">{ loading ? <Loading /> : <Classification /> }</div>
         ])
     }
 }
