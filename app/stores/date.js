@@ -17,6 +17,22 @@ class Dates {
     @observable navProcess = [[], [], [], []];
 
     @action
+    setCurrentD = date => self.currentD = date;
+
+    @action
+    setSelectD = date => {
+        self.selectD = date;
+        self.currentD = date;
+        self.month = {
+            year: date.year,
+            month: date.month
+        }
+    }
+
+    @action
+    setCurrentM = month => self.currentM = month;
+
+    @action
     async getFeeds(selectD) {
         this.loading = true;
         try {

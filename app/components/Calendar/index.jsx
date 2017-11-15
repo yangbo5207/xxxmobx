@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { inject, observer } from 'mobx-react';
 import * as c from 'utils/calendar';
 import each from 'lodash/each';
 import API from 'utils/API';
@@ -14,13 +14,20 @@ import './style.scss';
 
 const styleTransform = getTransform();
 
+@inject(stores => ({
+    currentD: stores.dates.currentD,
+    currentM: stores.dates.currentM,
+    setCurrentD: stores.dates.setCurrentD,
+    setSelectD: stores.dates.setSelectD,
+    setCurrentM: stores.dates.setCurrentM,
+    type: stores.calendar.type,
+    weekType: stores.calendar.weekType,
+    monthType: stores.calendar.monthType,
+    switchType: stores.calendar.switchType,
+    getMessageType: stores.calendar.getMessageType
+}))
+@observer
 class Calendar extends Component {
-    state = {
-        type: 0,
-        weekType: {},
-        monthType: {}
-    }
-
     posState = {
         startX: 0,
         targetSourceX: -document.body.clientWidth,
@@ -28,54 +35,21 @@ class Calendar extends Component {
         deviceWidth: document.body.clientWidth
     }
 
-    toggleCalendar = () => {
-        const { curMonth, curDate } = this.props;
-        const { type } = this.state;
-
-        if (type == 0) {
-            this.setState({ type: 1 })
-            this.setMessageType(curMonth, 1);
-        } else {
-            this.setState({ type: 0 })
-            this.setMessageType(curDate, 0);
-        }
-    }
-
-    setMessageType = (cur, type) => {
-        const stateType = !type ? 'weekType' : 'monthType';
-        const curThree = !type ? c.getThreeWeekString(cur) : c.getThreeMonthString(cur);
-        let tag = true;
-        let temp = {};
-
-        curThree.forEach(item => {
-            if (typeof this.state[stateType][item] == 'undefined') {
-                tag = false;
-                return tag;
-            }
-        })
-
-        if (!tag) {
-            // 因为请求到的数据并非每一天都有数据，因此先将日期全部设置为空值
-            curThree.forEach(item => {
-                temp[item] = []
-            })
-            http.get(API.getMessageType(cur, type)).then(resp => {
-                const newItems = {};
-                each(resp.items, (data, date) => {
-                    if (date >= '2017-02-27') {
-                        newItems[date] = data;
-                    }
-                });
-                this.setState({
-                    [stateType]: Object.assign(temp, this.state[stateType], newItems)
-                })
-            })
-        }
-    }
-
     componentDidMount() {
-        const { curDate, curMonth } = this.props;
-        this.state.type == 0 ? this.setMessageType(curDate, 0) : this.setMessageType(curMonth, 1);
+        const { currentD, currentM, type, getMessageType } = this.props;
+        type ? getMessageType(currentM, true) : getMessageType(currentD, false);
+    }
+
+    toggleCalendar = () => {
+        const { currentD, currentM, type, switchType, getMessageType } = this.props;
+
+        if (!type) {
+            getMessageType(currentM, true);
+        } else {
+            getMessageType(currentD, false);
+        }
+
+        switchType();
     }
 
     touchstart = (e) => {
@@ -113,8 +87,7 @@ class Calendar extends Component {
          * tag == false  pre
          */
         const moveEnd = (tag) => {
-            const type = this.state.type;
-            const { curDate, curMonth, setDate } = this.props;
+            const { type, currentD, currentM, setCurrentD, setCurrentM, getMessageType } = this.props;
             let target, dateTag, getMonth;
 
             if (tag) {
@@ -132,21 +105,15 @@ class Calendar extends Component {
                 this.posState.targetSourceX = -deviceWidth;
                 this.posState.targetCurrentX = -deviceWidth;
                 this.scrollContainer.style[styleTransform] = `translate(${-deviceWidth}px, 0)`;
-                const newCur = !type ? c.getCurDate(curDate, dateTag) : getMonth(curMonth);
+                const newCur = !type ? c.getCurDate(currentD, dateTag) : getMonth(currentM);
                 if (!type) {
-                    setDate({
-                        currentD: newCur,
-                        currentM: { year: newCur.year, month: newCur.month }
-                    })
-                    // this.setState({ weekInfo: c.get3WeekInfo(newCur) });
-                    this.setMessageType(newCur, 0);
+                    setCurrentD(newCur);
+                    setCurrentM({ year: newCur.year, month: newCur.month })
+                    getMessageType(newCur, false);
                 } else {
-                    setDate({
-                        currentD: { ...newCur, date: this.props.curDate.date },
-                        currentM: newCur
-                    })
-                    // this.setState({ monthInfo: c.get3MonthInfo(newCur) });
-                    this.setMessageType(newCur, 1);
+                    setCurrentD({ ...newCur, date: currentD.date });
+                    setCurrentM(newCur);
+                    getMessageType(newCur, true);
                 }
             })
         }
@@ -204,11 +171,10 @@ class Calendar extends Component {
     }
 
     render() {
-        const { year, month } = this.props.curMonth;
-        const { curDate, curMonth } = this.props;
-        const { type, weekType, monthType } = this.state;
-        // let info = type == 0 ? weekInfo : monthInfo;
-        let info = type == 0 ? c.get3WeekInfo(curDate) : c.get3MonthInfo(curMonth);
+        const { year, month } = this.props.currentM;
+        const { currentD, currentM, type, weekType, monthType } = this.props;
+
+        let info = type == 0 ? c.get3WeekInfo(currentD) : c.get3MonthInfo(currentM);
         let _info = []
         let style = {
             width: document.body.clientWidth
@@ -229,13 +195,11 @@ class Calendar extends Component {
                 <CalendarHeader />
                 <div className="calendar">
                     <div className="calendar-main" ref={this.refCallback.bind(this, 'scrollContainer')} style={mainstyle}>
-                        {_info.map((item, i) => {
-                            return (
-                                <div className="date-item" style={style} key={i}>
-                                    {!type ? <WeekItem {...this.props} weekType={weekType} weekItemInfo={item} /> : <MonthItem {...this.props} monthType={monthType} monthItemInfo={item} />}
-                                </div>
-                            )
-                        })}
+                        {_info.map((item, i) => (
+                            <div className="date-item" style={style} key={i}>
+                                {!type ? <WeekItem weekItemInfo={item} /> : <MonthItem monthItemInfo={item} />}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
