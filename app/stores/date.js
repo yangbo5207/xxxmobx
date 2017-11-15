@@ -34,7 +34,7 @@ class Dates {
 
     @action
     async getFeeds(selectD) {
-        this.loading = true;
+        self.loading = true;
         try {
             const resp = await http.get(API.getDay(selectD), { lang: 'zh_CN' });
             if (resp.ret != 0) {

@@ -6,10 +6,16 @@ import * as c from 'utils/calendar';
     selectD: stores.dates.selectD,
     setSelectD: stores.dates.setSelectD,
     type: stores.calendar.type,
-    weekType: stores.calendar.weekType
+    weekType: stores.calendar.weekType,
+    getFeeds: stores.dates.getFeeds
 }))
 @observer
 class WeekItem extends Component {
+    clickHandler = item => {
+        const { setSelectD, getFeeds } = this.props;
+        setSelectD(item);
+        getFeeds(item);
+    }
     render() {
         let _key = 0;
         const { setSelectD, selectD, weekType, weekItemInfo } = this.props;
@@ -19,9 +25,9 @@ class WeekItem extends Component {
                 {weekItemInfo.map((item, i) => {
                     const nowDateString = c.getPrefixDateString(item);
                     let typeArr = !!weekType[nowDateString] ? weekType[nowDateString] : [];
-                    
+
                     return (
-                        <div className="date-number" onClick={setSelectD.bind(null, item)} key={`number${_key++}`}>
+                        <div className="date-number" onClick={this.clickHandler.bind(null, item)} key={`number${_key++}`}>
                             <span className={selectDateString == nowDateString ? 'number active' : 'number'}>{item.date}</span>
                             <div className="dots">
                                 {typeArr.indexOf(1) > -1 ? <span className="blue"></span> : null}
