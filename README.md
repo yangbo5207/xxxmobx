@@ -1,4 +1,4 @@
-##### 1. 装饰者模式
+#### 1. 装饰者模式
 
 在不改变对象，并且不适用继承的情况下，动态扩展对象能力的一种设计模式。
 
@@ -21,7 +21,7 @@ var man = new Man();
 man = new Decorator(man);
 ```
 
-##### 2. ES7 Decorator
+#### 2. ES7 Decorator
 
 ```js
 @someDecorator
@@ -37,14 +37,14 @@ class Person {
 }
 ```
 
-##### 3. mobX
+#### 3. mobX
 
-###### **observable state 可观察状态**
+##### **observable state 可观察状态**
 
 Observable 值可以是JS基本数据类型、引用类型、普通对象、类实例、数组和映射。
 
 
-###### autorun
+##### autorun
 
 auto可以创建一个响应式函数，当有被观察的值发生变化时，该函数总是会执行
 
@@ -77,7 +77,7 @@ const todo = new Todo();
 console.log(todo.number, todo.account);
 ```
 
-###### computed 计算属性
+##### computed 计算属性
 
 根据现有的值，获得一个新值
 
@@ -99,7 +99,7 @@ console.log(todo.number, todo.account, todo.totle); // 1, 209 , 210
 
 在class中定义一个计算属性时，必须以getter的形式添加
 
-###### action
+##### action
 
 表示一个动作，用于修改被观察的值
 
@@ -138,7 +138,7 @@ console.log(todo.totle);
 
 ##### 3. mobx-react
 
-###### @observer
+##### @observer
 
 将一个react组件转变成为一个响应式组件
 
@@ -174,7 +174,7 @@ class App extends Component {
 render(<App />, document.querySelector('#root'));
 ```
 
-###### Provider and inject
+##### Provider and inject
 
 Provider 借助Rreact context把属性传递给子组件
 inject可以理解为一个高阶函数，可以往当前组件中注入属性
@@ -225,6 +225,6 @@ render(<App />, document.querySelector('#root'));
 
 ```
 
-###### 实践
+##### 实践
 
 重构财经日历
