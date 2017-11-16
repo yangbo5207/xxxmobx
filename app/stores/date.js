@@ -44,7 +44,6 @@ class Dates {
 
             self.loading = false;
             self.currentData = resp.items;
-            console.log(self.currentData);
             self.navProcess = getNavigation(resp.items);
             detail.getMarketData(detail.active, type, resp.items);
         } catch(e) {

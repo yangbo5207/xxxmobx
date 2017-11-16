@@ -3,7 +3,6 @@ import { inject, observer } from 'mobx-react';
 import Classification from 'components/Classification';
 import Calendar from 'components/Calendar';
 import Loading from 'components/Loading';
-import './style.scss';
 
 @inject(stores => ({
     getFeeds: stores.dates.getFeeds,
