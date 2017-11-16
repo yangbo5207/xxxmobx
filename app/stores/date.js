@@ -2,6 +2,7 @@ import { observable, action } from 'mobx';
 import { getNavigation } from 'utils/transfer';
 import http from 'utils/http';
 import API from 'utils/API';
+import detail from './detail';
 
 const d = new Date();
 let _date = { year: d.getFullYear(), month: d.getMonth() + 1, date: d.getDate() }
@@ -33,7 +34,7 @@ class Dates {
     setCurrentM = month => self.currentM = month;
 
     @action
-    async getFeeds(selectD) {
+    async getFeeds(selectD, type) {
         self.loading = true;
         try {
             const resp = await http.get(API.getDay(selectD), { lang: 'zh_CN' });
@@ -43,7 +44,9 @@ class Dates {
 
             self.loading = false;
             self.currentData = resp.items;
+            console.log(self.currentData);
             self.navProcess = getNavigation(resp.items);
+            detail.getMarketData(detail.active, type, resp.items);
         } catch(e) {
             self.loading = false;
             self.error = e.message;
