@@ -8,7 +8,18 @@
 + 构造函数中接收真实对象的实例
 + 可以按需修改/新增接口
 
+```js
+class Man {}
 
+class Decorator {
+    constructor(man) {
+        //...
+    }
+}
+
+var man = new Man();
+man = new Decorator(man);
+```
 
 ##### 2. ES7 Decorator
 
