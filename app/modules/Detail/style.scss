@@ -1,0 +1,244 @@
+.detail-title {
+    height: 40px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #DDDDDD;
+    color: #666666;
+    font-size: 16px;
+}
+
+.type {
+    height: 40px;
+    line-height: 40px;
+    &.active {
+        border-bottom: 2px solid #F8CC00;
+        color: #333333;
+        font-weight: bold;
+    }
+}
+
+.cur-date {
+    height: 40px;
+    background-color: #fff;
+    color: #666666;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #E5E5E5;
+}
+.date {
+    position: relative;
+
+    .arrow2 {
+        display: block;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 50%;
+        margin-top: -10px;
+        right: -30px;
+
+        .arrow2-item {
+            position: absolute;
+            border-width: 8px;
+            top: 50%;
+            left: 5px;
+            width: 0;
+            height: 0;
+            transform: translateY(-50%);
+            border-style: dashed dashed dashed solid;
+        }
+
+        .arrow2-item1 {
+            border-color: transparent transparent transparent #666;
+        }
+
+        .arrow2-item2 {
+            border-color: transparent transparent transparent #ffffff;
+            left: 3px;
+        }
+    }
+
+    .arrow-left {
+        left: -30px;
+        transform: rotate(180deg);
+    }
+}
+
+.list-wrap {
+    color: #666666;
+    font-size: 14px;
+
+    .item {
+        border-bottom: 1px solid #E5E5E5;
+    }
+
+    .title {
+        height: 40px;
+        border-bottom: 1px solid #E5E5E5;
+        padding: 0 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &.hide-border {
+            border-bottom: 1px solid rgba(0, 0, 0, 0);
+        }
+    }
+
+    .arrow2 {
+        display: block;
+        width: 20px;
+        height: 20px;
+        position: relative;
+        // border: 1px solid red;
+
+        .arrow2-item {
+            position: absolute;
+            border-width: 8px;
+            top: 50%;
+            left: 6px;
+            width: 0;
+            height: 0;
+            transform: translateY(-50%);
+            border-style: dashed dashed dashed solid;
+        }
+
+        .arrow2-item1 {
+            border-color: transparent transparent transparent #666;
+        }
+
+        .arrow2-item2 {
+            border-color: transparent transparent transparent #F6F6F6;
+            left: 4px;
+        }
+
+        &.hide {
+            display: none;
+        }
+    }
+
+    .arrow-top {
+        transform: rotateZ(-90deg);
+    }
+    .arrow-bottom {
+        transform: rotateZ(90deg);
+    }
+}
+
+.sub-item {
+    padding-left: 10px;
+    background-color: #fff;
+    div {
+        line-height: 20px;
+        border-bottom: 1px solid #F4F4F4;
+        padding: 10px 10px 10px 0;
+
+        &:last-child {
+            border-bottom: 0;
+        }
+    }
+    display: none;
+    &.open {
+        display: block;
+    }
+}
+
+.item-sd {
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+    padding: 12px;
+}
+.national-flag {
+    width: 20px;
+    height: 14px;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    &.cn {
+        background-image: url('./images/cn.png');
+    }
+    &.us{
+        background-image: url('./images/us.png');
+    }
+    &.en{
+        background-image: url('./images/en.png');
+    }
+    &.de{
+        background-image: url('./images/de.png');
+    }
+    &.ou{
+        background-image: url('./images/ou.png');
+    }
+    &.ita{
+        background-image: url('./images/ita.png');
+    }
+    &.france{
+        background-image: url('./images/france.png');
+    }
+    &.rs{
+        background-image: url('./images/rs.png');
+    }
+    &.hk{
+        background-image: url('./images/hk.png');
+    }
+    &.jp{
+        background-image: url('./images/jp.png');
+    }
+    &.canada{
+        background-image: url('./images/canada.png');
+    }
+}
+
+.top-r {
+    width: 30px;
+    height: 16px;
+    background-color: #3B7FD9;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 10px;
+    text-align: center;
+    line-height: 16px;
+    display: none;
+    &.active {
+        display: block;
+    }
+}
+
+.top {
+    height: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.top-l {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .national-flag {
+        margin: 0 10px;
+    }
+}
+.content {
+    margin: 14px 0;
+    font-size: 16px;
+}
+.down {
+    display: flex;
+    justify-content: space-between;
+}
+
+.no-data {
+    margin-top: 24px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.current {
+    font-weight: bold;
+}
