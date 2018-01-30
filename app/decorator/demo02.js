@@ -1,14 +1,14 @@
-import { someCloth, someWeapon, someShoes, defaultRoleInfo } from './config';
+import { cloth, weapon, shoes, defaultRole } from './config';
 
 // 基础角色
 class Role {
-    constructor(roleInfo) {
-        this.hp = roleInfo.hp;
-        this.atk = roleInfo.atk;
-        this.speed = roleInfo.speed;
-        this.cloth = roleInfo.cloth;
-        this.weapon = roleInfo.weapon;
-        this.shoes = roleInfo.shoes;
+    constructor(role) {
+        this.hp = role.hp;
+        this.atk = role.atk;
+        this.speed = role.speed;
+        this.cloth = role.cloth;
+        this.weapon = role.weapon;
+        this.shoes = role.shoes;
     }
     run() {}
     attack() {}
@@ -16,16 +16,16 @@ class Role {
 
 class Soldier extends Role {
     constructor(roleInfo) {
-        const o = Object.assign({}, defaultRoleInfo, roleInfo);
+        const o = Object.assign({}, defaultRole, roleInfo);
         super(o);
         this.nickname = o.nickname;
         this.gender = o.gender;
         this.career = '战士';
-        if (roleInfo.hp == defaultRoleInfo.hp) {
-            this.hp = defaultRoleInfo.hp + 20;
+        if (roleInfo.hp == defaultRole.hp) {
+            this.hp = defaultRole.hp + 20;
         }
-        if (roleInfo.speed == defaultRoleInfo.speed) {
-            this.speed = defaultRoleInfo.speed + 5;
+        if (roleInfo.speed == defaultRole.speed) {
+            this.speed = defaultRole.speed + 5;
         }
     }
     run() {
@@ -40,6 +40,7 @@ class Soldier extends Role {
 
 class Decorator {
     constructor(role) {
+        this.role = role;
         this.hp = role.hp;
         this.atk = role.atk;
         this.speed = role.speed;
@@ -50,8 +51,8 @@ class Decorator {
         this.gender = role.gender;
         this.nickname = role.nickname;
     }
-    run() {}
-    attack() {}
+    run() { this.role.run(); }
+    attack() { this.role.attack() }
 }
 
 class ClothDecorator extends Decorator {
@@ -86,7 +87,7 @@ class ShoesDecorator extends Decorator {
 
 
 const baseInfo = {
-    ...defaultRoleInfo,
+    ...defaultRole,
     nickname: 'alex',
     gender: 'man'
 }
@@ -98,18 +99,18 @@ console.log(alex);
 
 console.log('                  ');
 console.log('------装备衣服-----');
-alex = new ClothDecorator(alex, someCloth);
+alex = new ClothDecorator(alex, cloth);
 console.log(alex);
 
 console.log('                  ');
 console.log('------装备武器-----');
-alex = new WeaponDecorator(alex, someWeapon);
+alex = new WeaponDecorator(alex, weapon);
 alex.attack();
 console.log(alex);
 
 
 console.log('                  ');
 console.log('------装备鞋子-----');
-alex = new ShoesDecorator(alex, someShoes);
+alex = new ShoesDecorator(alex, shoes);
 alex.run();
 console.log(alex);

@@ -1,13 +1,13 @@
-import { someCloth, someWeapon, someShoes, defaultRoleInfo } from './config';
+import { cloth, weapon, shoes, defaultRole } from './config';
 
 // 基础角色
-var Role = function(roleInfo) {
-    this.hp = roleInfo.hp;
-    this.atk = roleInfo.atk;
-    this.speed = roleInfo.speed;
-    this.cloth = roleInfo.cloth;
-    this.weapon = roleInfo.weapon;
-    this.shoes = roleInfo.shoes;
+var Role = function(role) {
+    this.hp = role.hp;
+    this.atk = role.atk;
+    this.speed = role.speed;
+    this.cloth = role.cloth;
+    this.weapon = role.weapon;
+    this.shoes = role.shoes;
 }
 Role.prototype = {
     constructor: Role,
@@ -17,16 +17,16 @@ Role.prototype = {
 }
 
 var Soldier = function(roleInfo) {
-    var o = Object.assign({}, defaultRoleInfo, roleInfo);
+    var o = Object.assign({}, defaultRole, roleInfo);
     Role.call(this, o);
     this.nickname = o.nickname;
     this.gender = o.gender;
     this.career = '战士';
-    if (roleInfo.hp == defaultRoleInfo.hp) {
-        this.hp = defaultRoleInfo.hp + 20;
+    if (roleInfo.hp == defaultRole.hp) {
+        this.hp = defaultRole.hp + 20;
     }
-    if (roleInfo.speed == defaultRoleInfo.speed) {
-        this.speed = defaultRoleInfo.speed + 5;
+    if (roleInfo.speed == defaultRole.speed) {
+        this.speed = defaultRole.speed + 5;
     }
 }
 Soldier.prototype = Object.create(Role.prototype, {
@@ -51,6 +51,7 @@ Soldier.prototype = Object.create(Role.prototype, {
 // }
 
 var Decorator = function(role) {
+    this.role = role;
     this.hp = role.hp;
     this.atk = role.atk;
     this.speed = role.speed;
@@ -111,30 +112,30 @@ ShoesDecorator.prototype = Object.create(Decorator.prototype, {
     }
 })
 
-var baseInfo = {
-    ...defaultRoleInfo,
+var base = {
+    ...defaultRole,
     nickname: 'alex',
     gender: 'man'
 }
-var alex = new Soldier(baseInfo);
+var alex = new Soldier(base);
 alex.run();
 alex.attack();
 console.log(alex);
 
 console.log('                  ');
 console.log('------装备衣服-----');
-alex = new ClothDecorator(alex, someCloth);
+alex = new ClothDecorator(alex, cloth);
 console.log(alex);
 
 console.log('                  ');
 console.log('------装备武器-----');
-alex = new WeaponDecorator(alex, someWeapon);
+alex = new WeaponDecorator(alex, weapon);
 alex.attack();
 console.log(alex);
 
 
 console.log('                  ');
 console.log('------装备鞋子-----');
-alex = new ShoesDecorator(alex, someShoes);
+alex = new ShoesDecorator(alex, shoes);
 alex.run();
 console.log(alex);
